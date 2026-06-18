@@ -1,709 +1,732 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CareerGuide AI</title>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareerGuide AI</title>
 
-<style>
-:root{
-  --bg:#0a0a0f;
-  --bg-elevated:#14141d;
-  --bg-elevated-hover:#1b1b27;
-  --border:#1e1e2a;
-  --border-hover:#2c2c3c;
-  --text:#f5f5f7;
-  --text-muted:#8a8794;
-  --text-faint:#0e0824;
-  --accent:#7c5cff;
-  --accent-2:#5b3df0;
-  --radius-lg:18px;
-  --radius-md:14px;
-  --radius-sm:10px;
+  <style>
+  :root{
+    --bg:#0a0a0f;
+    --bg-elevated:#14141d;
+    --bg-elevated-hover:#1b1b27;
+    --border:#1e1e2a;
+    --border-hover:#2c2c3c;
+    --text:#f5f5f7;
+    --text-muted:#8a8794;
+    --text-faint:#6b6878;
+    --accent:#7c5cff;
+    --accent-2:#5b3df0;
+    --radius-lg:18px;
+    --radius-md:14px;
+    --radius-sm:10px;
+  }
+
+  *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+  }
+
+  body{
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ---------- header ---------- */
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 40px;
+    border-bottom:1px solid var(--border);
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:10;
+  }
+
+  .logo-group{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .logo-icon{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    background:linear-gradient(135deg,#8d6bff,#5b3df0);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+  }
+
+  .logo-icon svg{
+    width:20px;
+    height:20px;
+    stroke:#fff;
+  }
+
+  .logo-text{
+    font-size:17px;
+    font-weight:600;
+    color:#fff;
+  }
+
+  .badge{
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:.5px;
+    color:var(--text-muted);
+    background:var(--bg-elevated);
+    border:1px solid var(--border);
+    padding:2px 6px;
+    border-radius:6px;
+    margin-left:6px;
+    vertical-align:middle;
+  }
+
+  .status{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:13px;
+    color:var(--text-muted);
+  }
+
+  .status .dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 8px var(--accent);
+  }
+
+  /* ---------- hero ---------- */
+  main{
+    flex:1;
+    padding-bottom:190px;
+  }
+
+  .hero{
+    text-align:center;
+    padding:56px 20px 36px;
+  }
+
+  .hero-icon{
+    width:64px;
+    height:64px;
+    border-radius:16px;
+    background:linear-gradient(135deg,#8d6bff,#5b3df0);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 22px;
+    box-shadow:0 10px 30px -8px rgba(124,92,255,.5);
+  }
+
+  .hero-icon svg{
+    width:30px;
+    height:30px;
+    stroke:#fff;
+  }
+
+  .hero h1{
+    font-size:32px;
+    font-weight:700;
+    letter-spacing:-.5px;
+    margin-bottom:12px;
+  }
+
+  .hero p{
+    color:var(--text-muted);
+    font-size:15px;
+    line-height:1.6;
+    max-width:460px;
+    margin:0 auto;
+  }
+
+  /* ---------- try asking grid ---------- */
+  .eyebrow{
+    text-align:center;
+    font-size:12px;
+    letter-spacing:2px;
+    color:var(--text-faint);
+    font-weight:600;
+    margin-bottom:16px;
+  }
+
+  .examples{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    width:100%;
+    max-width:680px;
+    margin:0 auto;
+    padding:0 20px;
+  }
+
+  .example-card{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:var(--bg-elevated);
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    padding:16px;
+    color:var(--text);
+    font-size:14px;
+    text-align:left;
+    cursor:pointer;
+    font-family:inherit;
+    transition:background .15s ease,border-color .15s ease;
+  }
+
+  .example-card:hover{
+    background:var(--bg-elevated-hover);
+    border-color:var(--border-hover);
+  }
+
+  .example-icon{
+    width:34px;
+    height:34px;
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+  }
+
+  .example-icon svg{
+    width:17px;
+    height:17px;
+  }
+
+  .icon-purple{background:rgba(124,92,255,.14);color:#a98bff;}
+  .icon-blue{background:rgba(64,170,220,.14);color:#5ec8e0;}
+  .icon-violet{background:rgba(124,92,255,.14);color:#9c8cff;}
+  .icon-pink{background:rgba(224,140,220,.14);color:#e08cdc;}
+
+  /* ---------- conversation divider ---------- */
+  .divider{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    max-width:680px;
+    margin:42px auto 28px;
+    padding:0 20px;
+  }
+
+  .divider .line{
+    flex:1;
+    height:1px;
+    background:var(--border);
+  }
+
+  .divider span{
+    font-size:12px;
+    letter-spacing:2px;
+    color:var(--text-faint);
+    font-weight:600;
+    white-space:nowrap;
+  }
+
+  /* ---------- chat ---------- */
+  .chat-container{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    max-width:680px;
+    margin:0 auto;
+    padding:0 20px;
+  }
+
+  .message-row{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+  }
+
+  .message-row.user{justify-content:flex-end;}
+  .message-row.bot{justify-content:flex-start;}
+
+  .avatar{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  .avatar.bot-avatar{
+    background:linear-gradient(135deg,#8d6bff,#5b3df0);
+  }
+
+  .avatar.bot-avatar svg{
+    width:17px;
+    height:17px;
+    stroke:#fff;
+  }
+
+  .avatar.user-avatar{
+    background:#2a2a38;
+  }
+
+  .avatar.user-avatar svg{
+    width:18px;
+    height:18px;
+    stroke:#9d9aab;
+    fill:none;
+  }
+
+  /* Bubble */
+
+  .bubble{
+    padding:13px 18px;
+    border-radius:18px;
+    font-size:14.5px;
+    max-width:700px;
+    word-wrap:break-word;
 }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+  .bot-bubble {
+      color: #e6e6e6;
+      line-height: 1.8;
+  }
+
+  /* Headings */
+  .bot-bubble h1,
+  .bot-bubble h2,
+  .bot-bubble h3,
+  .bot-bubble h4 {
+      color: #ffffff;
+      margin: 15px 0 10px;
+      font-weight: 700;
+  }
+
+  /* Paragraphs */
+  .bot-bubble p {
+      color: #d6d4de;
+      margin-bottom: 12px;
+  }
+
+  /* Lists */
+  .bot-bubble ul,
+  .bot-bubble ol {
+      padding-left: 22px;
+      margin: 10px 0;
+  }
+
+  .bot-bubble li {
+      color: #d6d4de;
+      margin-bottom: 6px;
+  }
+
+  .bubble{
+    padding:13px 18px;
+    border-radius:18px;
+    font-size:14.5px;
+    max-width:700px;
+    word-wrap:break-word;
 }
 
-body{
-  font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-}
-
-/* ---------- header ---------- */
-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:18px 40px;
-  border-bottom:1px solid var(--border);
-  position:sticky;
-  top:0;
-  background:var(--bg);
-  z-index:10;
-}
-
-.logo-group{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.logo-icon{
-  width:38px;
-  height:38px;
-  border-radius:10px;
-  background:linear-gradient(135deg,#8d6bff,#5b3df0);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-shrink:0;
-}
-
-.logo-icon svg{
-  width:20px;
-  height:20px;
-  stroke:#fff;
-}
-
-.logo-text{
-  font-size:17px;
-  font-weight:600;
-  color:#fff;
-}
-
-.badge{
-  font-size:10px;
-  font-weight:600;
-  letter-spacing:.5px;
-  color:var(--text-muted);
-  background:var(--bg-elevated);
-  border:1px solid var(--border);
-  padding:2px 6px;
-  border-radius:6px;
-  margin-left:6px;
-  vertical-align:middle;
-}
-
-.status{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  font-size:13px;
-  color:var(--text-muted);
-}
-
-.status .dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:var(--accent);
-  box-shadow:0 0 8px var(--accent);
-}
-
-/* ---------- hero ---------- */
-main{
-  flex:1;
-  padding-bottom:190px;
-}
-
-.hero{
-  text-align:center;
-  padding:56px 20px 36px;
-}
-
-.hero-icon{
-  width:64px;
-  height:64px;
-  border-radius:16px;
-  background:linear-gradient(135deg,#8d6bff,#5b3df0);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:0 auto 22px;
-  box-shadow:0 10px 30px -8px rgba(124,92,255,.5);
-}
-
-.hero-icon svg{
-  width:30px;
-  height:30px;
-  stroke:#fff;
-}
-
-.hero h1{
-  font-size:32px;
-  font-weight:700;
-  letter-spacing:-.5px;
-  margin-bottom:12px;
-}
-
-.hero p{
-  color:var(--text-muted);
-  font-size:15px;
-  line-height:1.6;
-  max-width:460px;
-  margin:0 auto;
-}
-
-/* ---------- try asking grid ---------- */
-.eyebrow{
-  text-align:center;
-  font-size:12px;
-  letter-spacing:2px;
-  color:var(--text-faint);
-  font-weight:600;
-  margin-bottom:16px;
-}
-
-.examples{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
-  width:100%;
-  max-width:680px;
-  margin:0 auto;
-  padding:0 20px;
-}
-
-.example-card{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  background:var(--bg-elevated);
-  border:1px solid var(--border);
-  border-radius:var(--radius-md);
-  padding:16px;
-  color:var(--text);
-  font-size:14px;
-  text-align:left;
-  cursor:pointer;
-  font-family:inherit;
-  transition:background .15s ease,border-color .15s ease;
-}
-
-.example-card:hover{
-  background:var(--bg-elevated-hover);
-  border-color:var(--border-hover);
-}
-
-.example-icon{
-  width:34px;
-  height:34px;
-  border-radius:9px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-shrink:0;
-}
-
-.example-icon svg{
-  width:17px;
-  height:17px;
-}
-
-.icon-purple{background:rgba(124,92,255,.14);color:#a98bff;}
-.icon-blue{background:rgba(64,170,220,.14);color:#5ec8e0;}
-.icon-violet{background:rgba(124,92,255,.14);color:#9c8cff;}
-.icon-pink{background:rgba(224,140,220,.14);color:#e08cdc;}
-
-/* ---------- conversation divider ---------- */
-.divider{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  max-width:680px;
-  margin:42px auto 28px;
-  padding:0 20px;
-}
-
-.divider .line{
-  flex:1;
-  height:1px;
-  background:var(--border);
-}
-
-.divider span{
-  font-size:12px;
-  letter-spacing:2px;
-  color:var(--text-faint);
-  font-weight:600;
-  white-space:nowrap;
-}
-
-/* ---------- chat ---------- */
-.chat-container{
-  display:flex;
-  flex-direction:column;
-  gap:18px;
-  max-width:680px;
-  margin:0 auto;
-  padding:0 20px;
-}
-
-.message-row{
-  display:flex;
-  gap:10px;
-  align-items:flex-start;
-}
-
-.message-row.user{justify-content:flex-end;}
-.message-row.bot{justify-content:flex-start;}
-
-.avatar{
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  flex-shrink:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-
-.avatar.bot-avatar{
-  background:linear-gradient(135deg,#8d6bff,#5b3df0);
-}
-
-.avatar.bot-avatar svg{
-  width:17px;
-  height:17px;
-  stroke:#fff;
-}
-
-.avatar.user-avatar{
-  background:#2a2a38;
-}
-
-.avatar.user-avatar svg{
-  width:18px;
-  height:18px;
-  stroke:#9d9aab;
-  fill:none;
-}
-
-/* Bubble */
-
-.bot-bubble {
-    color: #e6e6e6;
-    line-height: 1.8;
-}
-
-/* Headings */
-.bot-bubble h1,
-.bot-bubble h2,
-.bot-bubble h3,
-.bot-bubble h4 {
-    color: #ffffff;
-    margin: 15px 0 10px;
-    font-weight: 700;
-}
-
-/* Paragraphs */
-.bot-bubble p {
-    color: #d6d4de;
-    margin-bottom: 12px;
-}
-
-/* Lists */
-.bot-bubble ul,
-.bot-bubble ol {
-    padding-left: 22px;
-    margin: 10px 0;
-}
-
-.bot-bubble li {
-    color: #d6d4de;
-    margin-bottom: 6px;
-}
-
-/* Bold text */
-.bot-bubble strong {
-    color: #9c8cff;
-}
-
-/* ---------- footer ---------- */
-footer{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  background:#0c0c12;
-  border-top:1px solid var(--border);
-  padding:18px 40px 16px;
-}
-
-.footer-row{
-  display:flex;
-  gap:12px;
-  max-width:680px;
-  margin:0 auto;
+  .user-bubble{
+    background:#6c4cf0;
+    color:#fff;
+    border-bottom-right-radius:6px;
 }
 
 
-.input-wrap{
-  flex:1;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  background:var(--bg-elevated);
-  border:1px solid var(--border);
-  border-radius:var(--radius-md);
-  padding:13px 16px;
-}
+  /* Bold text */
+  .bot-bubble strong {
+      color: #9c8cff;
+  }
 
-.input-wrap svg{
-  width:17px;
-  height:17px;
-  stroke:var(--text-faint);
-  flex-shrink:0;
-}
+  /* ---------- footer ---------- */
+  footer{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:#0c0c12;
+    border-top:1px solid var(--border);
+    padding:18px 40px 16px;
+  }
 
-.input-wrap input{
-  flex:1;
-  width:100%;
-  background:none;
-  border:none;
-  outline:none;
-  color:var(--text);
-  font-size:14px;
-  font-family:inherit;
-}
+  .footer-row{
+    display:flex;
+    gap:12px;
+    max-width:680px;
+    margin:0 auto;
+  }
 
-.input-wrap input::placeholder{
-  color:var(--text-faint);
-}
 
-.send-btn{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  background:linear-gradient(135deg,#8d6bff,#5b3df0);
-  color:#fff;
-  border:none;
-  border-radius:var(--radius-md);
-  padding:13px 22px;
-  font-size:14px;
-  font-weight:600;
-  cursor:pointer;
-  font-family:inherit;
-  flex-shrink:0;
-}
+  .input-wrap{
+    flex:1;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--bg-elevated);
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    padding:13px 16px;
+  }
 
-.send-btn svg{
-  width:15px;
-  height:15px;
-}
+  .input-wrap svg{
+    width:17px;
+    height:17px;
+    stroke:var(--text-faint);
+    flex-shrink:0;
+  }
 
-.send-btn:hover{
-  filter:brightness(1.08);
-}
+  .input-wrap input{
+    flex:1;
+    width:100%;
+    background:none;
+    border:none;
+    outline:none;
+    color:var(--text);
+    font-size:14px;
+    font-family:inherit;
+  }
 
-.disclaimer{
-  text-align:center;
-  font-size:12px;
-  color:var(--text-faint);
-  margin-top:12px;
-}
+  .input-wrap input::placeholder{
+    color:var(--text-faint);
+  }
 
-.credits{
-  display:flex;
-  justify-content:space-between;
-  max-width:680px;
-  margin:14px auto 0;
-  font-size:12px;
-  color:var(--text-faint);
-}
+  .send-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:linear-gradient(135deg,#8d6bff,#5b3df0);
+    color:#fff;
+    border:none;
+    border-radius:var(--radius-md);
+    padding:13px 22px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    font-family:inherit;
+    flex-shrink:0;
+  }
 
-.credits .purple{color:#9c8cff;font-weight:600;}
-.credits .blue{color:#5ec8e0;font-weight:600;}
+  .send-btn svg{
+    width:15px;
+    height:15px;
+  }
 
-/* ---------- responsive ---------- */
-@media (max-width:600px){
-  header{padding:16px 20px;}
-  footer{padding:14px 20px 14px;}
-  .examples{grid-template-columns:1fr;}
-  .hero h1{font-size:26px;}
-  .bubble{max-width:78%;}
-}
+  .send-btn:hover{
+    filter:brightness(1.08);
+  }
 
-</style>
-</head>
+  .disclaimer{
+    text-align:center;
+    font-size:12px;
+    color:var(--text-faint);
+    margin-top:12px;
+  }
 
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<body>
+  .credits{
+    display:flex;
+    justify-content:space-between;
+    max-width:680px;
+    margin:14px auto 0;
+    font-size:12px;
+    color:var(--text-faint);
+  }
 
-<header>
-  <div class="logo-group">
-    <div class="logo-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"></circle>
-        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-      </svg>
-    </div>
-    <span class="logo-text">CareerGuide</span>
-    <span class="badge">AI</span>
-  </div>
+  .credits .purple{color:#9c8cff;font-weight:600;}
+  .credits .blue{color:#5ec8e0;font-weight:600;}
 
-  <div class="status">
-    <span class="dot"></span>
-    Online
-  </div>
-</header>
+  /* ---------- responsive ---------- */
+  @media (max-width:600px){
+    header{padding:16px 20px;}
+    footer{padding:14px 20px 14px;}
+    .examples{grid-template-columns:1fr;}
+    .hero h1{font-size:26px;}
+    .bubble{max-width:78%;}
+  }
 
-<main>
+  </style>
+  </head>
 
-  <div class="hero">
-    <div class="hero-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"></circle>
-        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-      </svg>
-    </div>
-    <h1>Your Personal Career Counselor</h1>
-    <p>Ask me about career paths, job roles, required skills, roadmaps, and entrance exams.</p>
-  </div>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <body>
 
-  <div class="eyebrow">TRY ASKING</div>
-
-  <div class="examples">
-    <button class="example-card" onclick="fillQuestion('Which career suits me?')">
-      <span class="example-icon icon-purple">
-        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
-          <path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8L12 2z"></path>
-        </svg>
-      </span>
-      <span>Which career suits me?</span>
-    </button>
-
-    <button class="example-card" onclick="fillQuestion('How do I become a Data Scientist?')">
-      <span class="example-icon icon-blue">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="20" x2="12" y2="10"></line>
-          <line x1="18" y1="20" x2="18" y2="4"></line>
-          <line x1="6" y1="20" x2="6" y2="16"></line>
-        </svg>
-      </span>
-      <span>How do I become a Data Scientist?</span>
-    </button>
-
-    <button class="example-card" onclick="fillQuestion('AI Engineer roadmap')">
-      <span class="example-icon icon-violet">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="6" y="6" width="12" height="12" rx="2"></rect>
-          <line x1="9" y1="2" x2="9" y2="6"></line>
-          <line x1="15" y1="2" x2="15" y2="6"></line>
-          <line x1="9" y1="18" x2="9" y2="22"></line>
-          <line x1="15" y1="18" x2="15" y2="22"></line>
-          <line x1="2" y1="9" x2="6" y2="9"></line>
-          <line x1="2" y1="15" x2="6" y2="15"></line>
-          <line x1="18" y1="9" x2="22" y2="9"></line>
-          <line x1="18" y1="15" x2="22" y2="15"></line>
-        </svg>
-      </span>
-      <span>AI Engineer roadmap</span>
-    </button>
-
-    <button class="example-card" onclick="fillQuestion('MBA vs MTech — which to choose?')">
-      <span class="example-icon icon-pink">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="6" y1="3" x2="6" y2="15"></line>
-          <circle cx="18" cy="6" r="3"></circle>
-          <circle cx="6" cy="18" r="3"></circle>
-          <path d="M18 9a9 9 0 0 1-9 9"></path>
-        </svg>
-      </span>
-      <span>MBA vs MTech — which to choose?</span>
-    </button>
-  </div>
-
-  <div class="divider">
-    <span class="line"></span>
-    <span>Conversation</span>
-    <span class="line"></span>
-  </div>
-
-  <div id="chatContainer" class="chat-container">
-
-    <div class="message-row user">
-      <div class="bubble user-bubble">How do I become a Data Scientist?</div>
-      <div class="avatar user-avatar">
-        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="8" r="4"></circle>
-          <path d="M4 21v-1a8 8 0 0 1 16 0v1"></path>
-        </svg>
-      </div>
-    </div>
-
-    <div class="message-row bot">
-      <div class="avatar bot-avatar">
+  <header>
+    <div class="logo-group">
+      <div class="logo-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10"></circle>
           <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
         </svg>
       </div>
-      <div class="bubble bot-bubble">
-        Great choice! To become a Data Scientist, here's a clear roadmap: 1. Learn Python or R for data analysis 2. Master statistics and probability 3. Study Machine Learning (scikit-learn, TensorFlow) 4. Practice with real datasets on Kaggle 5. Learn SQL for database querying 6. Build portfolio projects For entrance exams, consider GRE for MS programs, or target certifications like Google Data Analytics or IBM Data Science.
-      </div>
+      <span class="logo-text">CareerGuide</span>
+      <span class="badge">AI</span>
     </div>
 
-    <div class="message-row user">
-      <div class="bubble user-bubble">What skills do I need for AI Engineering?</div>
-      <div class="avatar user-avatar">
-        <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="8" r="4"></circle>
-          <path d="M4 21v-1a8 8 0 0 1 16 0v1"></path>
-        </svg>
-      </div>
+    <div class="status">
+      <span class="dot"></span>
+      Online
     </div>
+  </header>
 
-    <div class="message-row bot">
-      <div class="avatar bot-avatar">
+  <main>
+
+    <div class="hero">
+      <div class="hero-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10"></circle>
           <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
         </svg>
       </div>
-      <div class="bubble bot-bubble">
-        AI Engineering requires a strong technical foundation: • Programming: Python (primary), C++ (optional) • Deep Learning frameworks: PyTorch, TensorFlow • MLOps: model deployment, Docker, Kubernetes • Mathematics: Linear Algebra, Calculus, Probability • Cloud platforms: AWS, GCP, or Azure Recommended path: Start with a B.Tech in CS or related field → pursue M.Tech / MS in AI/ML → target companies like Google DeepMind, OpenAI, or startups.
+      <h1>Your Personal Career Counselor</h1>
+      <p>Ask me about career paths, job roles, required skills, roadmaps, and entrance exams.</p>
+    </div>
+
+    <div class="eyebrow">TRY ASKING</div>
+
+    <div class="examples">
+      <button class="example-card" onclick="fillQuestion('Which career suits me?')">
+        <span class="example-icon icon-purple">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8L12 2z"></path>
+          </svg>
+        </span>
+        <span>Which career suits me?</span>
+      </button>
+
+      <button class="example-card" onclick="fillQuestion('How do I become a Data Scientist?')">
+        <span class="example-icon icon-blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="20" x2="12" y2="10"></line>
+            <line x1="18" y1="20" x2="18" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="16"></line>
+          </svg>
+        </span>
+        <span>How do I become a Data Scientist?</span>
+      </button>
+
+      <button class="example-card" onclick="fillQuestion('AI Engineer roadmap')">
+        <span class="example-icon icon-violet">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="6" width="12" height="12" rx="2"></rect>
+            <line x1="9" y1="2" x2="9" y2="6"></line>
+            <line x1="15" y1="2" x2="15" y2="6"></line>
+            <line x1="9" y1="18" x2="9" y2="22"></line>
+            <line x1="15" y1="18" x2="15" y2="22"></line>
+            <line x1="2" y1="9" x2="6" y2="9"></line>
+            <line x1="2" y1="15" x2="6" y2="15"></line>
+            <line x1="18" y1="9" x2="22" y2="9"></line>
+            <line x1="18" y1="15" x2="22" y2="15"></line>
+          </svg>
+        </span>
+        <span>AI Engineer roadmap</span>
+      </button>
+
+      <button class="example-card" onclick="fillQuestion('MBA vs MTech — which to choose?')">
+        <span class="example-icon icon-pink">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="6" y1="3" x2="6" y2="15"></line>
+            <circle cx="18" cy="6" r="3"></circle>
+            <circle cx="6" cy="18" r="3"></circle>
+            <path d="M18 9a9 9 0 0 1-9 9"></path>
+          </svg>
+        </span>
+        <span>MBA vs MTech — which to choose?</span>
+      </button>
+    </div>
+
+    <div class="divider">
+      <span class="line"></span>
+      <span>Conversation</span>
+      <span class="line"></span>
+    </div>
+
+    <div id="chatContainer" class="chat-container">
+
+      <div class="message-row user">
+        <div class="bubble user-bubble">How do I become a Data Scientist?</div>
+        <div class="avatar user-avatar">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21v-1a8 8 0 0 1 16 0v1"></path>
+          </svg>
+        </div>
       </div>
+
+      <div class="message-row bot">
+        <div class="avatar bot-avatar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+          </svg>
+        </div>
+        <div class="bubble bot-bubble">
+          Great choice! To become a Data Scientist, here's a clear roadmap: 1. Learn Python or R for data analysis 2. Master statistics and probability 3. Study Machine Learning (scikit-learn, TensorFlow) 4. Practice with real datasets on Kaggle 5. Learn SQL for database querying 6. Build portfolio projects For entrance exams, consider GRE for MS programs, or target certifications like Google Data Analytics or IBM Data Science.
+        </div>
+      </div>
+
+      <div class="message-row user">
+        <div class="bubble user-bubble">What skills do I need for AI Engineering?</div>
+        <div class="avatar user-avatar">
+          <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21v-1a8 8 0 0 1 16 0v1"></path>
+          </svg>
+        </div>
+      </div>
+
+      <div class="message-row bot">
+        <div class="avatar bot-avatar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+          </svg>
+        </div>
+        <div class="bubble bot-bubble">
+          AI Engineering requires a strong technical foundation: • Programming: Python (primary), C++ (optional) • Deep Learning frameworks: PyTorch, TensorFlow • MLOps: model deployment, Docker, Kubernetes • Mathematics: Linear Algebra, Calculus, Probability • Cloud platforms: AWS, GCP, or Azure Recommended path: Start with a B.Tech in CS or related field → pursue M.Tech / MS in AI/ML → target companies like Google DeepMind, OpenAI, or startups.
+        </div>
+      </div>
+
     </div>
 
-  </div>
+  </main>
 
-</main>
-
-<footer>
-  <div class="footer-row">
-    <div class="input-wrap">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-      </svg>
-      <input type="text" id="messageInput" placeholder="Ask about careers, skills, roadmaps, exams...">
+  <footer>
+    <div class="footer-row">
+      <div class="input-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+        <input type="text" id="messageInput" placeholder="Ask about careers, skills, roadmaps, exams...">
+      </div>
+      <button class="send-btn" onclick="sendMessage()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+        Send
+      </button>
     </div>
-    <button class="send-btn" onclick="sendMessage()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="22" y1="2" x2="11" y2="13"></line>
-        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-      </svg>
-      Send
-    </button>
-  </div>
 
-  <div class="disclaimer">CareerGuide may make mistakes. Always verify important decisions.</div>
+    <div class="disclaimer">CareerGuide may make mistakes. Always verify important decisions.</div>
 
-  <div class="credits">
-    <span>Built by <span class="purple">Arya</span></span>
-    <span>Built for <span class="blue">GENAI Internship</span></span>
-  </div>
-</footer>
+    <div class="credits">
+      <span>Built by <span class="purple">Arya</span></span>
+      <span>Built for <span class="blue">GENAI Internship</span></span>
+    </div>
+  </footer>
 
-<script>
-const BOT_ICON = `
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="10"></circle>
-    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-  </svg>`;
+  <script>
+  const BOT_ICON = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+    </svg>`;
 
-const USER_ICON = `
-  <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="8" r="4"></circle>
-    <path d="M4 21v-1a8 8 0 0 1 16 0v1"></path>
-  </svg>`;
+  const USER_ICON = `
+    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="8" r="4"></circle>
+      <path d="M4 21v-1a8 8 0 0 1 16 0v1"></path>
+    </svg>`;
 
-const chatContainer = document.getElementById("chatContainer");
-const messageInput = document.getElementById("messageInput");
+  const chatContainer = document.getElementById("chatContainer");
+  const messageInput = document.getElementById("messageInput");
 
-function fillQuestion(text) {
-  messageInput.value = text;
-  messageInput.focus();
-}
-
-function appendMessage(text, sender) {
-
-  const row = document.createElement("div");
-
-  row.className = `message-row ${sender}`;
-
-  const bubble = document.createElement("div");
-
-  bubble.className = `bubble ${sender}-bubble`;
-
-  if(sender === "bot"){
-      bubble.innerHTML = marked.parse(text);
-  } else {
-      bubble.textContent = text;
+  function fillQuestion(text) {
+    messageInput.value = text;
+    messageInput.focus();
   }
 
-  const avatar = document.createElement("div");
+  function appendMessage(text, sender) {
 
-  avatar.className = `avatar ${sender}-avatar`;
+    const row = document.createElement("div");
 
-  avatar.innerHTML =
-      sender === "bot"
-      ? BOT_ICON
-      : USER_ICON;
+    row.className = `message-row ${sender}`;
 
-  if(sender === "user"){
-      row.appendChild(bubble);
-      row.appendChild(avatar);
-  } else {
-      row.appendChild(avatar);
-      row.appendChild(bubble);
-  }
+    const bubble = document.createElement("div");
 
-  chatContainer.appendChild(row);
-}
+    bubble.className = `bubble ${sender}-bubble`;
 
-async function sendMessage() {
-
-    const text = messageInput.value.trim();
-
-    if (!text) return;
-
-    appendMessage(text, "user");
-
-    messageInput.value = "";
-
-    try {
-
-        const response = await fetch("/api/chat", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                message: text
-            }),
-        });
-
-        const data = await response.json();
-
-        appendMessage(data.reply, "bot");
-
-    } catch (error) {
-
-        console.error(error);
-
-        appendMessage(
-            "Unable to connect to AI service.",
-            "bot"
-        );
+    if(sender === "bot"){
+        bubble.innerHTML = marked.parse(text);
+    } else {
+        bubble.textContent = text;
     }
-}
 
-messageInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    sendMessage();
+    const avatar = document.createElement("div");
+
+    avatar.className = `avatar ${sender}-avatar`;
+
+    avatar.innerHTML =
+        sender === "bot"
+        ? BOT_ICON
+        : USER_ICON;
+
+    if(sender === "user"){
+        row.appendChild(bubble);
+        row.appendChild(avatar);
+    } else {
+        row.appendChild(avatar);
+        row.appendChild(bubble);
+    }
+
+    chatContainer.appendChild(row);
   }
-});
 
-</script>
-</body>
-</html>
+  async function sendMessage() {
+
+      const text = messageInput.value.trim();
+
+      if (!text) return;
+
+      appendMessage(text, "user");
+
+      messageInput.value = "";
+
+      try {
+
+          const response = await fetch("/api/chat", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                  message: text
+              }),
+          });
+
+          const data = await response.json();
+
+          appendMessage(data.reply, "bot");
+
+      } catch (error) {
+
+          console.error(error);
+
+          appendMessage(
+              "Unable to connect to AI service.",
+              "bot"
+          );
+      }
+  }
+
+  messageInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      sendMessage();
+    }
+  });
+
+  </script>
+  </body>
+  </html>
