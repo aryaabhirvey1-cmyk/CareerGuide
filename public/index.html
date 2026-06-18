@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CareerGuide AI</title>
+
 <style>
 :root{
   --bg:#0a0a0f;
@@ -13,7 +14,7 @@
   --border-hover:#2c2c3c;
   --text:#f5f5f7;
   --text-muted:#8a8794;
-  --text-faint:#5d5a68;
+  --text-faint:#0e0824;
   --accent:#7c5cff;
   --accent-2:#5b3df0;
   --radius-lg:18px;
@@ -326,6 +327,33 @@ footer{
   margin:0 auto;
 }
 
+.bot-bubble h1,
+.bot-bubble h2,
+.bot-bubble h3{
+  color:#ffffff;
+  margin:12px 0;
+}
+
+.bot-bubble p{
+  margin:10px 0;
+}
+
+.bot-bubble ul{
+  padding-left:20px;
+}
+
+.bot-bubble li{
+  margin:6px 0;
+}
+
+.bot-bubble strong{
+  color:#9c8cff;
+}
+
+.bot-bubble{
+  line-height:1.8;
+}
+
 .input-wrap{
   flex:1;
   display:flex;
@@ -414,6 +442,8 @@ footer{
 
 </style>
 </head>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <body>
 
 <header>
@@ -603,27 +633,39 @@ function fillQuestion(text) {
 }
 
 function appendMessage(text, sender) {
+
   const row = document.createElement("div");
+
   row.className = `message-row ${sender}`;
 
   const bubble = document.createElement("div");
+
   bubble.className = `bubble ${sender}-bubble`;
-  bubble.textContent = text;
+
+  if(sender === "bot"){
+      bubble.innerHTML = marked.parse(text);
+  } else {
+      bubble.textContent = text;
+  }
 
   const avatar = document.createElement("div");
-  avatar.className = `avatar ${sender}-avatar`;
-  avatar.innerHTML = sender === "bot" ? BOT_ICON : USER_ICON;
 
-  if (sender === "user") {
-    row.appendChild(bubble);
-    row.appendChild(avatar);
+  avatar.className = `avatar ${sender}-avatar`;
+
+  avatar.innerHTML =
+      sender === "bot"
+      ? BOT_ICON
+      : USER_ICON;
+
+  if(sender === "user"){
+      row.appendChild(bubble);
+      row.appendChild(avatar);
   } else {
-    row.appendChild(avatar);
-    row.appendChild(bubble);
+      row.appendChild(avatar);
+      row.appendChild(bubble);
   }
 
   chatContainer.appendChild(row);
-  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
 }
 
 async function sendMessage() {
